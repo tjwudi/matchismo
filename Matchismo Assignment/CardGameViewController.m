@@ -7,23 +7,63 @@
 //
 
 #import "CardGameViewController.h"
+#import "Model/Deck.h"
+#import "Model/PlayingCardDeck.h"
 
 @interface CardGameViewController ()
-
+@property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
+@property (nonatomic) NSInteger flipCount;
+@property (strong, nonatomic) Deck* deck;
 @end
 
 @implementation CardGameViewController
 
-- (void)viewDidLoad
+- (instancetype) init
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    if (self = [super init]) {
+        self.flipCount = 0;
+    }
+    return self;
 }
 
-- (void)didReceiveMemoryWarning
+- (Deck*) deck
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    if (!_deck) {
+        _deck = [[PlayingCardDeck alloc] init];
+    }
+    return _deck;
 }
+
+- (void) setFlipCount:(NSInteger)flipCount
+{
+    _flipCount = flipCount;
+    [self.flipsLabel setText: [NSString stringWithFormat:@"Flips: %d", flipCount]];
+}
+
+- (IBAction)touchCardButton:(UIButton *)sender
+{
+    UIImage *newImage = nil;
+    NSString *newTitie = nil;
+    if ([[sender currentTitle] length]) {
+        newImage = [UIImage imageNamed:@"cardback"];
+        newTitie = @"";
+    }
+    else {
+        newImage = [UIImage imageNamed:@"cardfront"];
+        Card *newCard = [self.deck drawRandomCard];
+        if (newCard) {
+            newTitie = [[self.deck drawRandomCard] contents];
+        }
+        else {
+            self.deck = [[PlayingCardDeck alloc] init];
+        }
+        
+    }
+    [sender setBackgroundImage:newImage forState:UIControlStateNormal];
+    [sender setTitle:newTitie forState:UIControlStateNormal];
+    self.flipCount ++;
+}
+
+
 
 @end
