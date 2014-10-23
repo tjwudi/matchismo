@@ -29,10 +29,16 @@
 - (Deck*) deck
 {
     if (!_deck) {
-        _deck = [[PlayingCardDeck alloc] init];
+        _deck = [self createDeck];
     }
     return _deck;
 }
+
+-(Deck*) createDeck
+{
+    return [[PlayingCardDeck alloc] init];
+}
+
 
 - (void) setFlipCount:(NSInteger)flipCount
 {
@@ -49,19 +55,17 @@
         newTitie = @"";
     }
     else {
-        newImage = [UIImage imageNamed:@"cardfront"];
         Card *newCard = [self.deck drawRandomCard];
         if (newCard) {
-            newTitie = [[self.deck drawRandomCard] contents];
+            newImage = [UIImage imageNamed:@"cardfront"];
+            newTitie = [newCard contents];
         }
-        else {
-            self.deck = [[PlayingCardDeck alloc] init];
-        }
-        
     }
-    [sender setBackgroundImage:newImage forState:UIControlStateNormal];
-    [sender setTitle:newTitie forState:UIControlStateNormal];
-    self.flipCount ++;
+    if (newImage) {
+        [sender setBackgroundImage:newImage forState:UIControlStateNormal];
+        [sender setTitle:newTitie forState:UIControlStateNormal];
+        self.flipCount ++;
+    }
 }
 
 
