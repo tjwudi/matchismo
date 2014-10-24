@@ -52,4 +52,21 @@
     }
 }
 
+- (int) match:(NSArray *)cards
+{
+    int score = 0;
+    
+    if ([cards count] == 1) {
+        PlayingCard *otherCard = [cards firstObject];
+        if ([self.suit isEqualToString: otherCard.suit]) {
+            score = 1;
+        }
+        else if (self.rank == otherCard.rank) {
+            score = 4;
+        }
+    }
+    
+    return score;
+}
+
 @end
