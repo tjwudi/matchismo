@@ -23,9 +23,18 @@
 
 - (CardMatchingGame *)game {
     if (!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+        _game = [self createGame];
     }
     return _game;
+}
+
+- (CardMatchingGame*)createGame {
+    return [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                             usingDeck:[self createDeck]];
+}
+
+- (void)resetGame {
+    self.game = [self createGame];
 }
 
 -(Deck*) createDeck
@@ -40,6 +49,10 @@
     [self updateUI];
 }
 
+- (IBAction)touchResetButton:(UIButton *)sender {
+    [self resetGame];
+    [self updateUI];
+}
 
 - (void)updateUI
 {
