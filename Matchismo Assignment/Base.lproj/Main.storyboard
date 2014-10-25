@@ -166,6 +166,18 @@
                                     <action selector="touchResetButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="odI-r3-oQH"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SN0-ER-QkY">
+                                <rect key="frame" x="57" y="389" width="207" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Match 2 Cards"/>
+                                    <segment title="Match 3 Cards"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="changeMatchModeSwitch:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Jps-PY-NMg"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>

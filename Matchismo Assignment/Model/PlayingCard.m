@@ -69,6 +69,12 @@
         }
         
     }
+    else if ([cards count] == 2) {
+        id cardGot1 = (PlayingCard*)[cards objectAtIndex: 0],
+            cardGot2 = (PlayingCard*)[cards objectAtIndex: 1];
+        score = [self match:@[cardGot1]] + [self match:@[cardGot2]] + [cardGot1 match:@[cardGot2]];
+        return score;
+    }
     
     return score;
 }

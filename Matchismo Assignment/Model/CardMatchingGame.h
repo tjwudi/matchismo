@@ -19,6 +19,7 @@
                          usingDeck:(Deck*) deck;
 
 - (void) chooseCardAtIndex:(NSUInteger)index;
+- (void) chooseCardAtIndex:(NSUInteger)index inMatchMode:(int)matchMode;
 - (Card*) cardAtIndex:(NSUInteger)index;
 
 @end
