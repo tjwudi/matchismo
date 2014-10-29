@@ -13,6 +13,7 @@
 
 @interface CardGameViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *matchHistoryLabel;
 @property (strong, nonatomic) Deck* deck;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
@@ -91,6 +92,10 @@
     }
     
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+    if ([self.game.matchHistory count] > 0) {
+        self.matchHistoryLabel.text = (NSString*)[self.game.matchHistory lastObject];
+
+    }
 }
 
 - (NSString*)titleForCard:(Card*)card

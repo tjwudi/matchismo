@@ -11,6 +11,7 @@
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards;
+@property (nonatomic, strong, readwrite) NSMutableArray *matchHistory;
 @end
 
 @implementation CardMatchingGame
@@ -22,6 +23,14 @@
         _cards = [[NSMutableArray alloc] init];
     }
     return _cards;
+}
+
+-(NSMutableArray*) matchHistory
+{
+    if (!_matchHistory) {
+        _matchHistory = [[NSMutableArray alloc] init];
+    }
+    return _matchHistory;
 }
 
 -(instancetype) initWithCardCount:(NSUInteger)count
@@ -74,14 +83,18 @@ static const int COST_TO_CHOOSE = 1;
                 }
             }
             
+            int scoreDelta = self.score;
+            BOOL matched = NO;
+            
             if ([chosenCards count] == matchMode - 1) {
-                
+            
                 int matchScore = [card match: chosenCards];
                 if (matchScore) {
                     self.score += matchScore * MATCH_BONUS;
                     card.matched = YES;
                     for (Card *otherCard in chosenCards) {
                         otherCard.matched = YES;
+                        matched = YES;
                     }
                 }
                 else {
@@ -95,10 +108,41 @@ static const int COST_TO_CHOOSE = 1;
     
             card.chosen = YES;
             self.score -= COST_TO_CHOOSE;
+            
+            if ([chosenCards count] == matchMode - 1) {
+                scoreDelta = self.score - scoreDelta;
+                [chosenCards addObject:card];
+                [self recordMatchHistoryOfCards:chosenCards
+                                        matched:matched
+                                     scoreDelta:scoreDelta];
+            }
         }
     }
 
     
+}
+
+
+
+
+- (void)recordMatchHistoryOfCards:(NSArray*)cards
+                          matched:(BOOL)matched
+                       scoreDelta:(int)scoreDelta
+{
+    NSMutableString *cardsNameList = [[NSMutableString alloc] initWithString:@""];
+    for (Card* card in cards) {
+        [cardsNameList appendString: card.contents];
+        if ([cards lastObject] != card) {
+            [cardsNameList appendString:@" "];
+        }
+    }
+    
+    if (matched) {
+        [self.matchHistory addObject:[NSString stringWithFormat:@"%@ matched, %d points credit!", cardsNameList, scoreDelta]];
+    }
+    else {
+        [self.matchHistory addObject:[NSString stringWithFormat:@"%@ mismatched, %d points penalty", cardsNameList, abs(scoreDelta)]];
+    }
 }
 
 

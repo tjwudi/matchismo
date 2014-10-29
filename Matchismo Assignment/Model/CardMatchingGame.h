@@ -13,6 +13,7 @@
 @interface CardMatchingGame : NSObject
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic, readonly) NSMutableArray *matchHistory;
 
 // designated initializer
 - (instancetype) initWithCardCount:(NSUInteger)count
