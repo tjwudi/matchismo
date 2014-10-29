@@ -7,6 +7,7 @@
 //
 
 #import "CardGameViewController.h"
+#import "CardGameMatchHistoryViewController.h"
 #import "Model/Deck.h"
 #import "Model/PlayingCardDeck.h"
 #import "Model/CardMatchingGame.h"
@@ -107,6 +108,17 @@
 {
     NSString *imageName = card.isChosen ? @"cardfront" : @"cardback";
     return [UIImage imageNamed:imageName];
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show History"]) {
+        if ([segue.destinationViewController isKindOfClass:[CardGameMatchHistoryViewController class]]) {
+            CardGameMatchHistoryViewController *dmc = (CardGameMatchHistoryViewController *) segue.destinationViewController;
+            dmc.game = self.game;
+        }
+    }
 }
 
 
